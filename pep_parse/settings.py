@@ -1,4 +1,5 @@
-import os
+from pep_parse.constants import RESULTS_DIR_NAME, PEP_FILENAME
+
 
 BOT_NAME = "pep_parse"
 
@@ -7,18 +8,14 @@ NEWSPIDER_MODULE = "pep_parse.spiders"
 
 ROBOTSTXT_OBEY = False
 
-OUTPUT_DIR = 'results'
-
 FEEDS = {
-    f'{OUTPUT_DIR}/pep_%(time)s.csv': {
+    f'{RESULTS_DIR_NAME}/{PEP_FILENAME}': {
         'format': 'csv',
         'fields': ['number', 'name', 'status'],
         'encoding': 'utf-8',
         'overwrite': True,
     },
 }
-
-FEED_STORE_EMPTY = True
 
 ITEM_PIPELINES = {
     "pep_parse.pipelines.PepParsePipeline": 300,

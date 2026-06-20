@@ -3,13 +3,13 @@ import re
 from scrapy.http import Response
 
 from pep_parse.items import PepParseItem
-from pep_parse.constants import EXPECTED_STATUS
+from pep_parse.constants import EXPECTED_STATUS, PEP_URL
 
 
 class PepSpider(scrapy.Spider):
     name = "pep"
     allowed_domains = ["peps.python.org"]
-    start_urls = ["https://peps.python.org/"]
+    start_urls = [PEP_URL]
 
     def parse(self, response: Response):
         rows = response.css('table.pep-zero-table tbody tr')
