@@ -37,4 +37,4 @@ class PepParsePipeline:
             f.write(f'Total,{total}\n')
         spider.logger.info(
             f'Файлы сохранены: {pep_filename}, {summary_filename}'
-            )
+        )
