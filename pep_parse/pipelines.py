@@ -16,7 +16,15 @@ class PepParsePipeline:
         return item
 
     def close_spider(self, spider):
-        results_dir = Path('results')
+        feeds = spider.settings.get('FEEDS', {})
+        results_dir = None
+        for feed_path in feeds:
+            feed_path = Path(str(feed_path))
+            if feed_path.parent.name == 'results':
+                results_dir = feed_path.parent
+                break
+        if results_dir is None:
+            results_dir = Path('results')
         results_dir.mkdir(exist_ok=True)
         now = datetime.now().strftime('%Y-%m-%dT%H-%M-%S')
         pep_filename = results_dir / f'pep_{now}.csv'
