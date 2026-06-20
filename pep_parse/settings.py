@@ -1,3 +1,5 @@
+import os
+
 BOT_NAME = "pep_parse"
 
 SPIDER_MODULES = ["pep_parse.spiders"]
@@ -5,8 +7,10 @@ NEWSPIDER_MODULE = "pep_parse.spiders"
 
 ROBOTSTXT_OBEY = False
 
+OUTPUT_DIR = 'results'
+
 FEEDS = {
-    f'results/pep_%(time)s.csv': {
+    f'{OUTPUT_DIR}/pep_%(time)s.csv': {
         'format': 'csv',
         'fields': ['number', 'name', 'status'],
         'encoding': 'utf-8',

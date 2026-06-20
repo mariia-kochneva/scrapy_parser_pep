@@ -5,6 +5,7 @@ from pathlib import Path
 class PepParsePipeline:
 
     def open_spider(self, spider):
+        Path('results').mkdir(exist_ok=True)
         self.status_counts = {}
 
     def process_item(self, item, spider):
@@ -15,7 +16,6 @@ class PepParsePipeline:
 
     def close_spider(self, spider):
         results_dir = Path('results')
-        results_dir.mkdir(exist_ok=True)
         now = datetime.now().strftime('%Y-%m-%dT%H-%M-%S')
         filename = results_dir / f'status_summary_{now}.csv'
         total = sum(self.status_counts.values())
