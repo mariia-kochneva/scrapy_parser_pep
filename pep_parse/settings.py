@@ -1,5 +1,6 @@
 import os
-
+import scrapy
+print(f"Scrapy version: {scrapy.__version__}")
 BOT_NAME = "pep_parse"
 
 SPIDER_MODULES = ["pep_parse.spiders"]
