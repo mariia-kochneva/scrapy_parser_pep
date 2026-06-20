@@ -40,7 +40,9 @@ class PepSpider(scrapy.Spider):
             if name == 'Python Enhancement Proposals' or not name:
                 title_tag = response.css('title::text').get()
                 if title_tag:
-                    name = re.sub(r'PEP\s+\d+\s*[–-]\s*', '', title_tag).strip()
+                    name = (
+                        re.sub(r'PEP\s+\d+\s*[–-]\s*', '', title_tag).strip()
+                    )
                     name = re.sub(r'\s*\|.*$', '', name).strip()
                 else:
                     name = title.strip()
