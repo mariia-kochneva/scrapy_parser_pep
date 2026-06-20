@@ -1,6 +1,5 @@
 import scrapy
 import re
-from pathlib import Path
 from scrapy.http import Response
 
 from pep_parse.items import PepParseItem
