@@ -23,11 +23,15 @@ class PepParsePipeline:
         results_dir = RESULTS_DIR
         results_dir.mkdir(exist_ok=True)
         now = datetime.now().strftime('%Y-%m-%dT%H-%M-%S')
-        pep_filename = results_dir / f'pep_{now}.csv'
-        with open(pep_filename, 'w', encoding='utf-8') as f:
-            f.write('number,name,status\n')
-            for item in self.pep_items:
-                f.write(f"{item['number']},{item['name']},{item['status']}\n")
+        existing_pep = list(results_dir.glob('pep_*.csv'))
+        if not existing_pep:
+            pep_filename = results_dir / f'pep_{now}.csv'
+            with open(pep_filename, 'w', encoding='utf-8') as f:
+                f.write('number,name,status\n')
+                for item in self.pep_items:
+                    f.write(
+                        f"{item['number']},{item['name']},{item['status']}\n"
+                    )
         summary_filename = results_dir / f'status_summary_{now}.csv'
         total = sum(self.status_counts.values())
         with open(summary_filename, 'w', encoding='utf-8') as f:
@@ -35,6 +39,4 @@ class PepParsePipeline:
             for status, count in sorted(self.status_counts.items()):
                 f.write(f'{status},{count}\n')
             f.write(f'Total,{total}\n')
-        spider.logger.info(
-            f'Файлы сохранены: {pep_filename}, {summary_filename}'
-        )
+        spider.logger.info(f'Сводка сохранена в {summary_filename}')
