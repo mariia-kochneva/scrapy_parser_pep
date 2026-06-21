@@ -1,3 +1,4 @@
+from collections import defaultdict
 from datetime import datetime
 from pathlib import Path
 
@@ -16,12 +17,12 @@ RESULTS_DIR = BASE_DIR / RESULTS_DIR_NAME
 class PepParsePipeline:
 
     def open_spider(self, spider):
-        self.status_counts = {}
+        self.status_counts = defaultdict(int)
 
     def process_item(self, item, spider):
         status = item.get('status')
         if status:
-            self.status_counts[status] = self.status_counts.get(status, 0) + 1
+            self.status_counts[status] += 1
         return item
 
     def close_spider(self, spider):
@@ -30,9 +31,10 @@ class PepParsePipeline:
         now = datetime.now().strftime(DATETIME_FORMAT)
         summary_filename = results_dir / f'status_summary_{now}.csv'
         total = sum(self.status_counts.values())
+        lines = [SUMMARY_CSV_HEADER]
+        for status, count in sorted(self.status_counts.items()):
+            lines.append(f'{status},{count}\n')
+        lines.append(SUMMARY_CSV_TOTAL.format(total=total))
         with open(summary_filename, 'w', encoding='utf-8') as f:
-            f.write(SUMMARY_CSV_HEADER)
-            for status, count in sorted(self.status_counts.items()):
-                f.write(f'{status},{count}\n')
-            f.write(SUMMARY_CSV_TOTAL.format(total=total))
+            f.write(''.join(lines))
         spider.logger.info(f'Сводка сохранена в {summary_filename}')

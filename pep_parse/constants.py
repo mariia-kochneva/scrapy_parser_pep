@@ -10,8 +10,8 @@ EXPECTED_STATUS = {
     '': ('Draft', 'Active'),
 }
 
-# URL для парсинга
-PEP_URL = 'https://peps.python.org/'
+# Разрешённые домены
+ALLOWED_DOMAINS = ['peps.python.org']
 
 # Папка для результатов
 RESULTS_DIR_NAME = 'results'
